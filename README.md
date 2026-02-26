@@ -1,24 +1,34 @@
-# Hi from Hamburg - lightweight test website
+# Hi from Hamburg (Docker website)
 
-This repository contains a very small static website that can run in Docker (ideal for a UGREEN NAS Docker setup).
+Lightweight static website that displays **"Hi from Hamburg!"** and runs in Docker.
 
-## Build
+## Run with Docker Compose (recommended)
 
-```bash
-docker build -t hi-from-hamburg:latest .
-```
-
-## Run
+This is set up so `docker compose up` builds the image (if needed) and starts it right away.
 
 ```bash
-docker run --rm -p 8080:80 --name hi-from-hamburg hi-from-hamburg:latest
+docker compose up -d
 ```
 
-Open `http://<your-nas-ip>:8080` (or `http://localhost:8080` when running locally).
+Default host port is a deliberately unusual one: `39081`.
 
-## UGREEN NAS tips
+Open: `http://<your-nas-ip>:39081`
 
-1. Upload this folder to the NAS.
-2. In Docker/Container Manager on the NAS, build an image from this folder (or use CLI build command above).
-3. Run a container from the image and map NAS port `8080` (or any free port) to container port `80`.
-4. Optional: set restart policy to `unless-stopped` for persistent availability.
+### Optional: choose your own port
+
+```bash
+HAMBURG_PORT=43117 docker compose up -d
+```
+
+## Build and run without Compose
+
+```bash
+docker build -t hi-from-hamburg .
+docker run -d --name hi-from-hamburg -p 39081:80 --restart unless-stopped hi-from-hamburg
+```
+
+## Stop and remove
+
+```bash
+docker compose down
+```
